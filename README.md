@@ -48,6 +48,8 @@ Le développement local utilise PostgreSQL via `docker-compose.yml`. Remplace `D
 
 Payload synchronise le schéma en développement. Pour la production, crée et versionne une migration avant le déploiement.
 
+Les types Payload sont générés avec `pnpm payload:generate` et ne sont pas versionnés afin d'éviter des types obsolètes lorsque les collections changent.
+
 ## Nouveau projet client
 
 1. Duplique le dépôt avec **Use this template** une fois le dépôt marqué comme template.
