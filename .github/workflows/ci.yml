@@ -23,8 +23,21 @@ jobs:
           PAYLOAD_SECRET: ci-only-secret-ci-only-secret-ci-only
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/global_starter
       - run: pnpm typecheck
+      - run: pnpm test
       - run: pnpm build
         env:
           PAYLOAD_SECRET: ci-only-secret-ci-only-secret-ci-only
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/global_starter
           NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+        env:
+          PAYLOAD_SECRET: ci-only-secret-ci-only-secret-ci-only
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/global_starter
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
