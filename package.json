@@ -11,7 +11,11 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm lint && pnpm typecheck && pnpm build",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "check": "bash scripts/validate.sh",
+    "proof": "bash scripts/proof-pack.sh",
     "payload": "payload",
     "payload:generate": "payload generate:types && payload generate:importmap",
     "db:migrate": "payload migrate",
@@ -35,8 +39,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
+    "@playwright/test": "^1.55.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@11.16.0"
 }
