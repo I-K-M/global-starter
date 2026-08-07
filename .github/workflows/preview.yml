@@ -1,0 +1,11 @@
+name: Vercel preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  note:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Vercel creates the preview deployment through its GitHub integration."
