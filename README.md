@@ -1,24 +1,24 @@
 # Global Starter
 
-Starter simple pour produire des sites clients avec Next.js, Payload et PostgreSQL.
+A simple starter for building client websites with Next.js, Payload, and PostgreSQL.
 
-## Inclus
+## Included
 
-- Next.js App Router, React, TypeScript strict et Tailwind CSS
-- Payload Admin sur `/admin`
-- collections `users`, `media`, `pages` et `posts`
-- brouillons et historique pour les contenus
-- PostgreSQL local avec Docker Compose
-- REST, GraphQL et Local API Payload
-- lint, typecheck, build et CI GitHub Actions
-- tests unitaires Vitest et parcours Playwright desktop/mobile
-- templates de spécifications, tickets et proof packs
-- worktrees Git pour isoler les tickets parallèles
-- preview Vercel optionnelle sur les pull requests
+- Next.js App Router, React, strict TypeScript, and Tailwind CSS
+- Payload Admin at `/admin`
+- `users`, `media`, `pages`, and `posts` collections
+- drafts and version history for content
+- local PostgreSQL with Docker Compose
+- Payload REST, GraphQL, and Local APIs
+- linting, type checking, production builds, and GitHub Actions CI
+- Vitest unit tests and Playwright desktop/mobile journeys
+- specification, ticket, and proof pack templates
+- Git worktrees for isolated parallel tickets
+- optional Vercel preview deployments for pull requests
 
-Il n'y a aucun module e-commerce.
+No e-commerce module is included.
 
-## Démarrage
+## Getting started
 
 ```bash
 cp .env.example .env
@@ -27,13 +27,13 @@ pnpm install
 pnpm dev
 ```
 
-- site : http://localhost:3000
-- administration : http://localhost:3000/admin
-- santé : http://localhost:3000/api/health
+- Website: http://localhost:3000
+- Admin panel: http://localhost:3000/admin
+- Health endpoint: http://localhost:3000/api/health
 
-Le premier accès à `/admin` permet de créer l'utilisateur administrateur.
+The first visit to `/admin` lets you create the initial administrator account.
 
-## Commandes
+## Commands
 
 ```bash
 pnpm dev
@@ -48,33 +48,33 @@ pnpm db:migrate:create
 pnpm db:migrate
 ```
 
-## Base de données
+## Database
 
-Le développement local utilise PostgreSQL via `docker-compose.yml`. Remplace `DATABASE_URL` pour utiliser Neon, Supabase, Railway ou un autre PostgreSQL compatible.
+Local development uses PostgreSQL through `docker-compose.yml`. Replace `DATABASE_URL` to use Neon, Supabase, Railway, or another compatible PostgreSQL provider.
 
-Payload synchronise le schéma en développement. Pour la production, crée et versionne une migration avant le déploiement.
+Payload synchronizes the schema during development. For production, create and commit a migration before deployment.
 
-Les types Payload sont générés avec `pnpm payload:generate` et ne sont pas versionnés afin d'éviter des types obsolètes lorsque les collections changent.
+Payload types are generated with `pnpm payload:generate` and are not committed, preventing stale types when collections change.
 
-## Nouveau projet client
+## Starting a client project
 
-1. Duplique le dépôt avec **Use this template** une fois le dépôt marqué comme template.
-2. Remplace les métadonnées et le contenu de démonstration.
-3. Adapte les collections Payload au besoin réel.
-4. Ajoute les variables d'environnement à l'hébergeur.
-5. Exécute `pnpm check` avant chaque livraison.
+1. Mark this repository as a template, then duplicate it with **Use this template**.
+2. Replace the metadata and demo content.
+3. Adapt the Payload collections to the actual requirements.
+4. Add the environment variables to the hosting provider.
+5. Run `pnpm check` before every delivery.
 
-Voir [docs/architecture.md](docs/architecture.md) pour les règles d'évolution.
+See [docs/architecture.md](docs/architecture.md) for the architecture and evolution rules.
 
-## Boucle de livraison
+## Delivery loop
 
-1. Partir d'un brief et remplir `specs/_template.md`.
-2. Découper le travail avec `tickets/_template.md`.
-3. Isoler un ticket avec `scripts/create-worktree.sh ticket-slug`.
-4. Implémenter puis exécuter `pnpm check`.
-5. Exécuter Playwright pour tout changement visible.
-6. Faire une revue froide du diff.
-7. Générer `pnpm proof -- ticket-slug` et compléter les preuves.
-8. Ouvrir une PR ; la production reste soumise à une validation humaine.
+1. Start from a brief and complete `specs/_template.md`.
+2. Split the work using `tickets/_template.md`.
+3. Isolate a ticket with `scripts/create-worktree.sh ticket-slug`.
+4. Implement the ticket, then run `pnpm check`.
+5. Run Playwright for every user-facing change.
+6. Perform a cold review of the diff.
+7. Generate `pnpm proof -- ticket-slug` and complete the evidence.
+8. Open a pull request. Production deployment still requires human approval.
 
-Pour les previews Vercel, configurer les secrets GitHub `VERCEL_TOKEN`, `VERCEL_ORG_ID` et `VERCEL_PROJECT_ID`.
+For Vercel previews, configure the `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` GitHub secrets.
