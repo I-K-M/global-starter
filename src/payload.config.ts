@@ -72,6 +72,7 @@ export default buildConfig({
     }),
     collections: [Pages, Posts, Media, Categories, Users],
     cors: [getServerSideURL()].filter(Boolean),
+    csrf: [getServerSideURL()].filter(Boolean),
     globals: [Header, Footer, SiteSettings],
     plugins: [
         ...plugins,
@@ -90,6 +91,13 @@ export default buildConfig({
         : undefined,
     secret: env.PAYLOAD_SECRET,
     sharp,
+    upload: {
+        abortOnLimit: true,
+        limits: {
+            fileSize: 10 * 1024 * 1024,
+            files: 1,
+        },
+    },
     typescript: {
         outputFile: path.resolve(dirname, 'payload-types.ts'),
     },
