@@ -47,6 +47,7 @@ jobs:
       - run: pnpm generate:types && pnpm generate:importmap
       - run: pnpm lint
       - run: pnpm typecheck
+      - run: pnpm test:unit
       - run: pnpm db:migrate
       - run: pnpm test:int
       - run: pnpm build
