@@ -46,7 +46,7 @@ jobs:
       - run: pnpm rebuild sharp esbuild unrs-resolver
       - run: pnpm generate:types && pnpm generate:importmap
       - run: |
-          (while true; do printf '\n'; sleep 0.2; done) |
+          (while true; do printf '\r'; sleep 1; done) |
             timeout 5m pnpm db:migrate:create --name canonical-schema
       - uses: actions/upload-artifact@v4
         with:
