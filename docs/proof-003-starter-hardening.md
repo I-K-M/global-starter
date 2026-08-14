@@ -39,6 +39,7 @@ Hardened the starter's privileged HTTP boundaries, environment validation, media
 - Excluded `test.env` from the Docker context.
 - Connected existing and new unit tests to `pnpm check` and CI.
 - Updated the CI preview-secret fixture to satisfy the enforced 32-character minimum.
+- Removed shadow collection configs that caused generated Payload types to omit production fields.
 
 ## Migrations and environment changes
 
