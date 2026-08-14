@@ -41,7 +41,7 @@ Hardened the starter's privileged HTTP boundaries, environment validation, media
 - Updated the CI preview-secret fixture to satisfy the enforced 32-character minimum.
 - Removed shadow collection configs that caused generated Payload types to omit production fields.
 - Made seed/test roles explicit and preserved literal global slugs for generated-type safety.
-- Raised the integration hook timeout to tolerate cold Payload/Postgres startup in CI.
+- Disabled interactive Postgres schema push so migration-backed CI and deployments cannot hang on prompts.
 
 ## Migrations and environment changes
 
