@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { isSecureDeploymentURL } from './utilities/security'
+
 const optionalString = z.preprocess((value) => (value === '' ? undefined : value), z.string().optional())
 const optionalSecret = z.preprocess(
   (value) => (value === '' ? undefined : value),
@@ -22,11 +24,11 @@ const envSchema = z.object({
   CRON_SECRET: optionalSecret,
   PREVIEW_SECRET: z.string().min(32),
 }).superRefine((values, context) => {
-  if (values.NODE_ENV === 'production' && !values.NEXT_PUBLIC_SERVER_URL.startsWith('https://')) {
+  if (values.NODE_ENV === 'production' && !isSecureDeploymentURL(values.NEXT_PUBLIC_SERVER_URL)) {
     context.addIssue({
       code: 'custom',
       path: ['NEXT_PUBLIC_SERVER_URL'],
-      message: 'NEXT_PUBLIC_SERVER_URL must use HTTPS in production',
+      message: 'NEXT_PUBLIC_SERVER_URL must use HTTPS in production (except on localhost)',
     })
   }
 })

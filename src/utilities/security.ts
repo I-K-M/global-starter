@@ -13,6 +13,11 @@ export const isSameOrigin = (origin: string | null, expectedURL: string): boolea
   }
 }
 
+export const isSecureDeploymentURL = (value: string): boolean => {
+  const url = new URL(value)
+  return url.protocol === 'https:' || ['localhost', '127.0.0.1', '::1'].includes(url.hostname)
+}
+
 export const secretsMatch = (provided: string | null, expected: string): boolean => {
   if (!provided) return false
 
