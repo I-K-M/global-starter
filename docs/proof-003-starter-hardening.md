@@ -38,6 +38,7 @@ Hardened the starter's privileged HTTP boundaries, environment validation, media
 - Allowed HTTP only for loopback hosts so production validation remains compatible with local container and CI builds.
 - Excluded `test.env` from the Docker context.
 - Connected existing and new unit tests to `pnpm check` and CI.
+- Updated the CI preview-secret fixture to satisfy the enforced 32-character minimum.
 
 ## Migrations and environment changes
 
