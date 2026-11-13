@@ -5,9 +5,16 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     services:
       postgres:
@@ -23,28 +30,38 @@ jobs:
     env:
       DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/global_starter
       PAYLOAD_SECRET: ci-only-secret-ci-only-secret-ci-only
-      PREVIEW_SECRET: ci-preview-secret-ci-only
+      PREVIEW_SECRET: ci-preview-secret-ci-only-at-least-32
       NEXT_PUBLIC_SERVER_URL: http://localhost:3000
       NEXT_PUBLIC_SITE_NAME: Global Starter CI
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          version: 11.16.0
-      - uses: actions/setup-node@v4
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm rebuild sharp esbuild unrs-resolver
       - run: pnpm generate:types && pnpm generate:importmap
+      - run: |
+          (while true; do printf '\r'; sleep 1; done) |
+            timeout 5m script -qefc 'pnpm db:migrate:create --name canonical-schema' /dev/null
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: generated-migration
+          path: src/migrations/
+          retention-days: 1
       - run: pnpm lint
       - run: pnpm typecheck
+      - run: pnpm test:unit
       - run: pnpm db:migrate
       - run: pnpm test:int
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: playwright-report

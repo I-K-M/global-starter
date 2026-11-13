@@ -3,6 +3,7 @@ set -euo pipefail
 
 pnpm lint
 pnpm typecheck
+pnpm test:unit
 pnpm test:int
 pnpm build
 

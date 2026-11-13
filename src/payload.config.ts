@@ -8,9 +8,9 @@ import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
-import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
-import { Users } from './collections/Users'
+import { Pages } from './collections/Pages/index'
+import { Posts } from './collections/Posts/index'
+import { Users } from './collections/Users/index'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -66,12 +66,14 @@ export default buildConfig({
     // This config helps us configure global or default features that the other editors can inherit
     editor: defaultLexical,
     db: postgresAdapter({
+        push: false,
         pool: {
             connectionString: env.DATABASE_URL,
         },
     }),
     collections: [Pages, Posts, Media, Categories, Users],
     cors: [getServerSideURL()].filter(Boolean),
+    csrf: [getServerSideURL()].filter(Boolean),
     globals: [Header, Footer, SiteSettings],
     plugins: [
         ...plugins,
@@ -90,6 +92,13 @@ export default buildConfig({
         : undefined,
     secret: env.PAYLOAD_SECRET,
     sharp,
+    upload: {
+        abortOnLimit: true,
+        limits: {
+            fileSize: 10 * 1024 * 1024,
+            files: 1,
+        },
+    },
     typescript: {
         outputFile: path.resolve(dirname, 'payload-types.ts'),
     },
